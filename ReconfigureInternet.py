@@ -12,8 +12,11 @@ pwd = "Nimrod123"
 # TODO add network to supplicant
 # check if network already exists in list first; get network ID
 regex = f'(\d)       {ssid}'
-networkList = subprocess.run("wpa_cli -i wlan0 list_networks", shell=True, check=True, capture_output=True, text=True)
+print(regex)
+networkList = subprocess.run("wpa_cli -iwlan0 list_networks", shell=True, check=True, capture_output=True, text=True)
 matches = re.findall(regex, networkList.stdout)
+print(len(matches))
+print(matches[0])
 if len(matches) <= 0: # no matches
     # TODO create network
     addNetwork = subprocess.run(['wpa_cli', '-iwlan0', 'add_network'], shell=True, check=True, capture_output=True, text=True)
