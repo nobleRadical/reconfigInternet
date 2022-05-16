@@ -14,7 +14,7 @@ pwd = "Nimrod123"
 regex = f'(\d)       {ssid}'
 networkList = subprocess.run("wpa_cli -i wlan0 list_networks", shell=True, check=True, capture_output=True, text=True)
 matches = re.findall(regex, networkList.stdout)
-if matches.len <= 0: # no matches
+if len(matches) <= 0: # no matches
     # TODO create network
     addNetwork = subprocess.run(['wpa_cli', '-iwlan0', 'add_network'], shell=True, check=True, capture_output=True, text=True)
     networkID = addNetwork.stdout
