@@ -24,6 +24,6 @@ configHandle.close()
 # run bash commands
 
 subprocess.run("wpa_cli terminate", shell=True, check=True)
-subprocess.run("wpa_supplicant -B -c/home/pi/wpaConfig.conf -iwlan0", check=True)
+subprocess.run("/usr/sbin/wpa_supplicant -B -c/home/pi/wpaConfig.conf -iwlan0", check=True)
 
 
