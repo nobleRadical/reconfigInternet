@@ -14,8 +14,6 @@ pwd = "Nimrod123"
 regex = f'(\\d)\\t{ssid}'
 networkList = subprocess.run("wpa_cli -iwlan0 list_networks", shell=True, check=True, capture_output=True, text=True)
 match = re.findall(regex, networkList.stdout)
-print("regex:" + regex)
-print("string:" + networkList.stdout)
 
 if not match: # no matches
     # TODO create network
@@ -25,7 +23,7 @@ if not match: # no matches
     setNetworkPwd = subprocess.run(['wpa_cli', '-iwlan0', 'set_network', networkID, 'psk', pwd], shell=True, check=True)
 else:
     # make that network id the one to select.
-    networkID = matches[0]
+    networkID = match[0]
 
 
 # TODO select network
