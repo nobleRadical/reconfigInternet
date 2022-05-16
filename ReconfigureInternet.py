@@ -23,4 +23,4 @@ configHandle.close()
 
 # run bash commands
 
-subprocess.run("./internal.sh", check=True)
+subprocess.run("/home/pi/riGit/internal.sh", check=True)
