@@ -15,9 +15,9 @@ update_config=1
 country=US
 
 network={
-        ssid={ssid}
-        psk={pwd}
-}""".format(ssid=ssid, pwd=pwd)
+        ssid=%s
+        psk=%s
+}""" % (ssid,pwd)
 configHandle.write(configString)
 configHandle.close()
 
