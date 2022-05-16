@@ -15,15 +15,15 @@ update_config=1
 country=US
 
 network={
-        ssid=%s
-        psk=%s
+        ssid="%s"
+        psk="%s"
 }""" % (ssid,pwd)
 configHandle.write(configString)
 configHandle.close()
 
 # run bash commands
 
-subprocess.run("wpa_cli terminate", shell=True, check=True)
-subprocess.run("/usr/sbin/wpa_supplicant -B -c/home/pi/wpaConfig.conf -iwlan0", check=True)
+### subprocess.run(["wpa_cli", "terminate"], shell=True, check=True)
+subprocess.run("/usr/sbin/wpa_supplicant -B -c /home/pi/wpaConfig.conf -iwlan0".split(" "), shell=True, check=True)
 
 
