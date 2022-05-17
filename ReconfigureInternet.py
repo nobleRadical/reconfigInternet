@@ -107,11 +107,16 @@ def main():
         file = open(filePath, 'r')
         lines = file.readlines()
         file.close()
+        newlines = []
         changed = False
         for i in range(len(lines)):
             if re.match(r'\[STATUS\]', lines[i]):
-                lines[i] = f'[STATUS] {message}'
+                newlines[i] = f'[STATUS] {message}'
                 changed = True
+                break
+            else:
+                newlines[i] = lines[i]
+            
         if changed: # there was a [STATUS] line
             file = open(filePath, 'w')
             file.writelines(lines)
