@@ -23,14 +23,6 @@ def ReInt():
     fileString = file.read()
     file.close()
 
-
-
-    fileString = """
-    ssid: 2.4 Managment
-    password: Nimrod123
-
-    [STATUS]
-    """
     # get ssid, password from file
     ssid = re.findall(r'[sS][sS][iI][dD]:(?: ?| *{)([^{}\n]*)(?:}|\n)', fileString)
     pwd = re.findall(r'[pP][aA][sS][sS][wW][oO][rR][dD]:(?: ?| *{)([^{}\n]*)(?:}|\n)', fileString)
