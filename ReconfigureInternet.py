@@ -85,7 +85,7 @@ def main():
         lines = file.readlines()
         file.close()
         for i in range(len(lines)):
-            if re.match(r'\[STATUS\]', line):
+            if re.match(r'\[STATUS\]', lines[i]):
                 lines[i] = f'[STATUS] {message}'
         print(lines)
         # # # if not (newlines == lines): # there was a [STATUS] line
