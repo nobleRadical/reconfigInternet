@@ -84,16 +84,15 @@ def main():
         file = open(filePath, 'r')
         lines = file.readlines()
         file.seek(0, 0)
-        newlines = file.readlines()
         file.close()
-        for line in newlines:
+        for line in lines:
             if re.match(r'\[STATUS\]', line):
                 line = f'[STATUS] {message}'
-                print("wrote to file")
+        print(lines)
         # # # if not (newlines == lines): # there was a [STATUS] line
-            file = open(filePath, 'w')
-            file.writelines(newlines)
-            file.close()
+        file = open(filePath, 'w')
+        file.writelines(lines)
+        file.close()
             
         # # # else: # there was none; create one
         # # #     file = open(filePath, 'a')
