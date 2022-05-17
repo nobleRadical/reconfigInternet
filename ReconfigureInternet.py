@@ -39,6 +39,8 @@ def ReInt():
     ssid = ssid[0]
     pwd = pwd[0]
     print("connecting to " + ssid)
+    print(f'password: {pwd}')
+    return
 
     # add network to supplicant
     # check if network already exists in list first; get network ID
