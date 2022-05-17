@@ -92,7 +92,6 @@ def main():
         message = f'ERROR {e}'
     else:
         # no errors, write success to file
-        print(networkAdded, passwordSet, networkRemoved)
         message = 'OK'
         if networkAdded:
             message += ' network_added'
@@ -108,7 +107,7 @@ def main():
         file = open(filePath, 'r')
         lines = file.readlines()
         file.close()
-        newlines = []
+        newlines = [""] * len(lines)
         changed = False
         for i in range(len(lines)):
             if re.match(r'\[STATUS\]', lines[i]):
