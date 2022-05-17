@@ -84,19 +84,20 @@ def main():
         file = open(filePath, 'r')
         lines = file.readlines()
         file.close()
+        changed = False
         for i in range(len(lines)):
             if re.match(r'\[STATUS\]', lines[i]):
                 lines[i] = f'[STATUS] {message}'
-        print(lines)
-        # # # if not (newlines == lines): # there was a [STATUS] line
-        file = open(filePath, 'w')
-        file.writelines(lines)
-        file.close()
+                changed = True
+        if changed: # there was a [STATUS] line
+            file = open(filePath, 'w')
+            file.writelines(lines)
+            file.close()
             
-        # # # else: # there was none; create one
-        # # #     file = open(filePath, 'a')
-        # # #     file.write(f'\n[STATUS] {message}')
-        # # #     file.close()
+        else: # there was none; create one
+            file = open(filePath, 'a')
+            file.write(f'\n[STATUS] {message}')
+            file.close()
            
 
 
