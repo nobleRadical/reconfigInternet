@@ -60,7 +60,7 @@ def ReInt():
     else:
         # make that network id the one to select.
         networkID = match[0]
-        print("Found known network.")
+        print(f"Found known network: {networkID}")
         if removeBool:
             print("Removing network from list.")
             removeNetwork = subprocess.run(f'wpa_cli -iwlan0 remove_network {networkID}', shell=True, check=True)
