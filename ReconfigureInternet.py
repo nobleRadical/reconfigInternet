@@ -83,11 +83,10 @@ def main():
         print(message)
         file = open(filePath, 'r')
         lines = file.readlines()
-        file.seek(0, 0)
         file.close()
-        for line in lines:
+        for i in range(len(lines)):
             if re.match(r'\[STATUS\]', line):
-                line = f'[STATUS] {message}'
+                lines[i] = f'[STATUS] {message}'
         print(lines)
         # # # if not (newlines == lines): # there was a [STATUS] line
         file = open(filePath, 'w')
