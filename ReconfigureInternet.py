@@ -85,15 +85,15 @@ def main():
         for line in newlines:
             if re.match(r'.*\[STATUS\].*', line):
                 line = f'[STATUS] {message}'
-        if not (newlines == lines): # there was a [STATUS] line
+        # # # if not (newlines == lines): # there was a [STATUS] line
             file = open(filePath, 'w')
-            file.writeline(lines)
+            file.writeline(newlines)
             file.close()
             
-        else: # there was none; create one
-            file = open(filePath, 'a')
-            file.write(f'\n[STATUS] {message}')
-            file.close()
+        # # # else: # there was none; create one
+        # # #     file = open(filePath, 'a')
+        # # #     file.write(f'\n[STATUS] {message}')
+        # # #     file.close()
            
 
 
