@@ -107,7 +107,7 @@ def main():
         file = open(filePath, 'r')
         lines = file.readlines()
         file.close()
-        newlines = [""] * len(lines)
+        newlines = [None] * len(lines)
         changed = False
         for i in range(len(lines)):
             if re.match(r'\[STATUS\]', lines[i]):
