@@ -66,6 +66,7 @@ def ReInt():
 
 def main():
     assert filePath, "input file (ri.txt) not found"
+    message: str
     try:
         ReInt()
     except Exception as e:
@@ -81,13 +82,15 @@ def main():
         print(message)
         file = open(filePath, 'r')
         lines = file.readlines()
+        file.seek(0, 0)
+        newlines = file.readlines()
         file.close()
-        for line in lines:
+        for line in newlines:
             if re.match(r'.*\[STATUS\].*', line):
                 line = f'[STATUS] {message}'
         # # # if not (newlines == lines): # there was a [STATUS] line
             file = open(filePath, 'w')
-            file.writelines(lines)
+            file.writelines(newlines)
             file.close()
             
         # # # else: # there was none; create one
