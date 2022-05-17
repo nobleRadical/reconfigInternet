@@ -79,7 +79,7 @@ def main():
         file.close()
         newlines = lines.copy()
         for line in newlines:
-            if re.match(r'^[STATUS]', line):
+            if re.match(r'[STATUS]', line):
                 line = f'[STATUS] {message}'
         if newlines == lines: # there was no [STATUS] line
             file = open(filePath, 'a')
