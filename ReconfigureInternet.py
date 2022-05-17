@@ -78,6 +78,7 @@ def main():
         message = 'OK'
     finally:
         # write message to file
+        print(message)
         file = open(filePath, 'r')
         lines = file.readlines()
         file.close()
