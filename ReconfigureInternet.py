@@ -38,15 +38,17 @@ def ReInt():
     assert pwd, "password not found in file"
     ssid = ssid[0]
     pwd = pwd[0]
-    print(ssid, pwd)
+    print("connecting to " + ssid)
 
     # add network to supplicant
     # check if network already exists in list first; get network ID
     regex = f'(\\d)\\t{ssid}'
+    print(ssid, pwd)
     networkList = subprocess.run("wpa_cli -iwlan0 list_networks", shell=True, check=True, capture_output=True, text=True)
     match = re.findall(regex, networkList.stdout)
 
     if not match: # no matches
+        print("No known network by that name. Creating...")
         # create network
         addNetwork = subprocess.run('wpa_cli -iwlan0 add_network', shell=True, check=True, capture_output=True, text=True)
         networkID = addNetwork.stdout
@@ -54,6 +56,7 @@ def ReInt():
         setNetworkPwd = subprocess.run(f'wpa_cli -iwlan0 set_network {networkID} psk {pwd}', shell=True, check=True)
     else:
         # make that network id the one to select.
+        print("Found known network.")
         networkID = match[0]
 
 
@@ -71,6 +74,7 @@ def main():
         message = f'ERROR {e}'
     else:
         # no errors, write success to file
+        print("succeeded.")
         message = 'OK'
     finally:
         # write message to file
@@ -81,15 +85,15 @@ def main():
         for line in newlines:
             if re.match(r'[STATUS]', line):
                 line = f'[STATUS] {message}'
-        if newlines == lines: # there was no [STATUS] line
-            file = open(filePath, 'a')
-            file.write(f'[STATUS] {message}')
-            file.close()
-        else:
+        if not (newlines == lines): # there was a [STATUS] line
             file = open(filePath, 'w')
             file.writeline(lines)
             file.close()
-        
+            
+        else: # there was none; create one
+            file = open(filePath, 'a')
+            file.write(f'\n[STATUS] {message}')
+            file.close()
            
 
 
