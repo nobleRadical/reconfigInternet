@@ -74,13 +74,23 @@ def main():
         message = 'OK'
     finally:
         # write message to file
-        file = open(filePath, 'rw')
+        file = open(filePath, 'r')
         lines = file.readlines()
-        for line in lines:
+        file.close()
+        newlines = lines.copy()
+        for line in newlines:
             if re.match(r'^[STATUS]', line):
                 line = f'[STATUS] {message}'
-        file.writelines(lines)
-        file.close()    
+        if newlines == lines: # there was no [STATUS] line
+            file = open(filePath, 'a')
+            file.write(f'[STATUS] {message}')
+            file.close()
+        else:
+            file = open(filePath, 'w')
+            file.writeline(lines)
+            file.close()
+        
+           
 
 
 if __name__ == "__main__":
