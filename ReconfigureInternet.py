@@ -26,6 +26,8 @@ def ReInt():
     # get ssid, password from file
     ssid = re.findall(r'[sS][sS][iI][dD]:(?: ?| *{)([^{}\n]*)(?:}|\n)', fileString)
     pwd = re.findall(r'[pP][aA][sS][sS][wW][oO][rR][dD]:(?: ?| *{)([^{}\n]*)(?:}|\n)', fileString)
+    removeBool = re.findall(r'[pP][aA][sS][sS][wW][oO][rR][dD][Rr][eE][mM][oO][vV][eE]', fileString) # are we removing a network?
+        
     assert ssid, "SSID not found in file"
     assert pwd, "password not found in file"
     ssid = ssid[0]
@@ -39,6 +41,9 @@ def ReInt():
     match = re.findall(regex, networkList.stdout)
 
     if not match: # no matches
+        if removeBool:
+            raise NameError("Tried to remove a network, but no known network by that name.")
+        
         print("No known network by that name. Creating...")
         # create network
         addNetwork = subprocess.run('wpa_cli -iwlan0 add_network', shell=True, check=True, capture_output=True, text=True)
@@ -46,31 +51,54 @@ def ReInt():
         setNetworkSSID = subprocess.run(f'wpa_cli -iwlan0 set_network {networkID} ssid {ssid}', shell=True, check=True)
         if pwd:
             setNetworkPwd = subprocess.run(f'wpa_cli -iwlan0 set_network {networkID} psk {pwd}', shell=True, check=True)
+            passwordSet = True
+        else:
+            passwordSet = False
+        networkAdded = True
     else:
         # make that network id the one to select.
-        print("Found known network.")
         networkID = match[0]
+        print("Found known network.")
+        if removeBool:
+            print("Removing network from list.")
+            removeNetwork = subprocess.run(f'wpa_cli -iwlan0 remove_network {networkID}', shell=True, check=True)
+            return False, False, True # network removed
+        networkAdded = False
+        passwordSet = False
+        
 
     print("Network id: ", networkID)
 
     # select network
     print("reconfiguring...")
     selectNetwork = subprocess.run(f'wpa_cli -iwlan0 select_network {networkID}', shell=True, check=True)
+    return networkAdded, passwordSet
 
 def main():
-    assert filePath, "input file (ri.txt) not found"
+    assert filePath, """input file (ri.txt) not found. File format should be: 
+    ssid: <ssid>
+    password: <password> OR PASSWORDREMOVE (to remove a network)
+
+    [STATUS]
+    """
     print(filePath)
     message: str
     try:
-        ReInt()
+        networkAdded, passwordSet, networkRemoved = ReInt()
     except Exception as e:
         # write error type, message to file
-        print("wow, that didn't work. whoops!")
         message = f'ERROR {e}'
     else:
         # no errors, write success to file
-        print("succeeded.")
         message = 'OK'
+        if networkAdded:
+            message += ' network_added'
+        else:
+            message += ' network_found'
+        if passwordSet:
+            message += ' password_set'
+        if networkRemoved:
+            message += ' network_removed'
     finally:
         # write message to file
         print(message)
