@@ -66,6 +66,7 @@ def ReInt():
 
 def main():
     assert filePath, "input file (ri.txt) not found"
+    print(filePath)
     message: str
     try:
         ReInt()
