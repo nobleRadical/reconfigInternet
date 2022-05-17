@@ -19,7 +19,7 @@ def ReInt():
 
     # get file: take as string
 
-    file = open("filePath", 'r')
+    file = open(filePath, 'r')
     fileString = file.read()
     file.close()
 
