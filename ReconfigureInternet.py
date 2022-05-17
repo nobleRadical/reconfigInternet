@@ -116,7 +116,7 @@ def main():
                 break
             else:
                 newlines[i] = lines[i]
-            
+            print(newlines)
         if changed: # there was a [STATUS] line
             file = open(filePath, 'w')
             file.writelines(lines)
