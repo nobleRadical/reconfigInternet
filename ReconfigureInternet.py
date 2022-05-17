@@ -50,9 +50,9 @@ def ReInt():
         # create network
         addNetwork = subprocess.run('wpa_cli -iwlan0 add_network', shell=True, check=True, capture_output=True, text=True)
         networkID = addNetwork.stdout
-        setNetworkSSID = subprocess.run(f'wpa_cli -iwlan0 set_network {networkID} ssid {ssid}', shell=True, check=True)
+        setNetworkSSID = subprocess.run(f'wpa_cli -iwlan0 set_network {networkID} ssid "{ssid}"', shell=True, check=True)
         if pwd:
-            setNetworkPwd = subprocess.run(f'wpa_cli -iwlan0 set_network {networkID} psk {pwd}', shell=True, check=True)
+            setNetworkPwd = subprocess.run(f'wpa_cli -iwlan0 set_network {networkID} psk "{pwd}"', shell=True, check=True)
             passwordSet = True
         else:
             passwordSet = False
