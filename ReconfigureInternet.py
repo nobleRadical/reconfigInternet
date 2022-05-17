@@ -107,7 +107,7 @@ def main():
         file = open(filePath, 'r')
         lines = file.readlines()
         file.close()
-        newlines = [None] * len(lines)
+        newlines = [""] * len(lines)
         changed = False
         for i in range(len(lines)):
             if re.match(r'\[STATUS\]', lines[i]):
@@ -116,10 +116,10 @@ def main():
                 break
             else:
                 newlines[i] = lines[i]
-            print(newlines)
+        print(newlines)
         if changed: # there was a [STATUS] line
             file = open(filePath, 'w')
-            file.writelines(lines)
+            file.writelines(newlines)
             file.close()
             
         else: # there was none; create one
