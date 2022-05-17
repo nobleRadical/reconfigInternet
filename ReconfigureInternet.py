@@ -46,7 +46,6 @@ def ReInt():
         if removeBool:
             raise NameError("Tried to remove a network, but no known network by that name.")
         
-        print("No known network by that name. Creating...")
         # create network
         addNetwork = subprocess.run('wpa_cli -iwlan0 add_network', shell=True, check=True, capture_output=True, text=True)
         networkID = addNetwork.stdout
@@ -60,19 +59,13 @@ def ReInt():
     else:
         # make that network id the one to select.
         networkID = match[0]
-        print(f"Found known network.")
         if removeBool:
-            print("Removing network from list.")
             removeNetwork = subprocess.run(f'wpa_cli -iwlan0 remove_network {networkID}', shell=True, check=True)
             return False, False, True # network removed
         networkAdded = False
         passwordSet = False
-        
-
-    print("Network id: ", networkID)
 
     # select network
-    print("reconfiguring...")
     selectNetwork = subprocess.run(f'wpa_cli -iwlan0 select_network {networkID}', shell=True, check=True)
     return networkAdded, passwordSet, False
 
@@ -103,7 +96,7 @@ def main():
             message += ' network_removed'
     finally:
         # write message to file
-        print("message: " + message)
+        print(message)
         file = open(filePath, 'r')
         lines = file.readlines()
         file.close()
