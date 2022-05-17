@@ -60,7 +60,7 @@ def ReInt():
     else:
         # make that network id the one to select.
         networkID = match[0]
-        print(f"Found known network: {networkID}")
+        print(f"Found known network.")
         if removeBool:
             print("Removing network from list.")
             removeNetwork = subprocess.run(f'wpa_cli -iwlan0 remove_network {networkID}', shell=True, check=True)
@@ -103,7 +103,7 @@ def main():
             message += ' network_removed'
     finally:
         # write message to file
-        print(message)
+        print("message: " + message)
         file = open(filePath, 'r')
         lines = file.readlines()
         file.close()
