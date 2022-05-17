@@ -74,7 +74,7 @@ def ReInt():
     # select network
     print("reconfiguring...")
     selectNetwork = subprocess.run(f'wpa_cli -iwlan0 select_network {networkID}', shell=True, check=True)
-    return networkAdded, passwordSet
+    return networkAdded, passwordSet, False
 
 def main():
     assert filePath, """input file (ri.txt) not found. File format should be: 
