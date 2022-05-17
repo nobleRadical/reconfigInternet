@@ -81,13 +81,12 @@ def main():
         file = open(filePath, 'r')
         lines = file.readlines()
         file.close()
-        newlines = lines.copy()
-        for line in newlines:
+        for line in lines:
             if re.match(r'.*\[STATUS\].*', line):
                 line = f'[STATUS] {message}'
         # # # if not (newlines == lines): # there was a [STATUS] line
             file = open(filePath, 'w')
-            file.write(newlines)
+            file.writelines(lines)
             file.close()
             
         # # # else: # there was none; create one
