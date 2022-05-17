@@ -43,7 +43,6 @@ def ReInt():
     # add network to supplicant
     # check if network already exists in list first; get network ID
     regex = f'(\\d)\\t{ssid}'
-    print(ssid, pwd)
     networkList = subprocess.run("wpa_cli -iwlan0 list_networks", shell=True, check=True, capture_output=True, text=True)
     match = re.findall(regex, networkList.stdout)
 
@@ -59,9 +58,10 @@ def ReInt():
         print("Found known network.")
         networkID = match[0]
 
+    print("Network id: ", networkID)
 
     # select network
-
+    print("reconfiguring...")
     selectNetwork = subprocess.run(f'wpa_cli -iwlan0 select_network {networkID}', shell=True, check=True)
 
 def main():
