@@ -87,7 +87,7 @@ def main():
                 line = f'[STATUS] {message}'
         # # # if not (newlines == lines): # there was a [STATUS] line
             file = open(filePath, 'w')
-            file.writeline(newlines)
+            file.write(newlines)
             file.close()
             
         # # # else: # there was none; create one
