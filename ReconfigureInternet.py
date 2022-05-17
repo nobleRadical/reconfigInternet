@@ -87,7 +87,7 @@ def main():
         newlines = file.readlines()
         file.close()
         for line in newlines:
-            if re.match(r'.*\[STATUS\].*', line):
+            if re.match(r'\[STATUS\]', line):
                 line = f'[STATUS] {message}'
                 print("wrote to file")
         # # # if not (newlines == lines): # there was a [STATUS] line
