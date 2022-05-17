@@ -29,9 +29,11 @@ def ReInt():
     removeBool = re.findall(r'[pP][aA][sS][sS][wW][oO][rR][dD][Rr][eE][mM][oO][vV][eE]', fileString) # are we removing a network?
         
     assert ssid, "SSID not found in file"
-    assert pwd, "password not found in file"
     ssid = ssid[0]
-    pwd = pwd[0]
+    if pwd:
+        pwd = pwd[0]
+    else:
+        pwd = None
     print("connecting to " + ssid)
 
     # add network to supplicant
