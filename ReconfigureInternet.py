@@ -92,6 +92,7 @@ def main():
         message = f'ERROR {e}'
     else:
         # no errors, write success to file
+        print(networkAdded, passwordSet, networkRemoved)
         message = 'OK'
         if networkAdded:
             message += ' network_added'
