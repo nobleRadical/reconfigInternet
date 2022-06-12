@@ -23,6 +23,8 @@ def ReInt():
     fileString = file.read()
     file.close()
 
+    interface_name = "wlan0"
+
     # get ssid, password from file
     ssid = re.findall(r'[sS][sS][iI][dD]:(?: ?| *{)([^{}\n]*)(?:}|\n)', fileString)
     pwd = re.findall(r'[pP][aA][sS][sS][wW][oO][rR][dD]:(?: ?| *{)([^{}\n]*)(?:}|\n)', fileString)
@@ -39,7 +41,7 @@ def ReInt():
     # add network to supplicant
     # check if network already exists in list first; get network ID
     regex = f'(\\d)\\t{ssid}'
-    networkList = subprocess.run("wpa_cli -iwlan0 list_networks", shell=True, check=True, capture_output=True, text=True)
+    networkList = subprocess.run(f"wpa_cli -i{interface_name} list_networks", shell=True, check=True, capture_output=True, text=True)
     match = re.findall(regex, networkList.stdout)
 
     if not match: # no matches
@@ -47,11 +49,11 @@ def ReInt():
             raise NameError("Tried to remove a network, but no known network by that name.")
         
         # create network
-        addNetwork = subprocess.run('wpa_cli -iwlan0 add_network', shell=True, check=True, capture_output=True, text=True)
+        addNetwork = subprocess.run(f'wpa_cli -i{interface_name} add_network', shell=True, check=True, capture_output=True, text=True)
         networkID = addNetwork.stdout
-        setNetworkSSID = subprocess.run(f'wpa_cli -iwlan0 set_network {networkID} ssid "{ssid}"', shell=True, check=True)
+        setNetworkSSID = subprocess.run(f'wpa_cli -i{interface_name} set_network {networkID} ssid "{ssid}"', shell=True, check=True)
         if pwd:
-            setNetworkPwd = subprocess.run(f'wpa_cli -iwlan0 set_network {networkID} psk "{pwd}"', shell=True, check=True)
+            setNetworkPwd = subprocess.run(f'wpa_cli -i{interface_name} set_network {networkID} psk "{pwd}"', shell=True, check=True)
             passwordSet = True
         else:
             passwordSet = False
@@ -60,13 +62,13 @@ def ReInt():
         # make that network id the one to select.
         networkID = match[0]
         if removeBool:
-            removeNetwork = subprocess.run(f'wpa_cli -iwlan0 remove_network {networkID}', shell=True, check=True)
+            removeNetwork = subprocess.run(f'wpa_cli -i{interface_name} remove_network {networkID}', shell=True, check=True)
             return False, False, True # network removed
         networkAdded = False
         passwordSet = False
 
     # select network
-    selectNetwork = subprocess.run(f'wpa_cli -iwlan0 select_network {networkID}', shell=True, check=True)
+    selectNetwork = subprocess.run(f'wpa_cli -i{interface_name} select_network {networkID}', shell=True, check=True)
     return networkAdded, passwordSet, False
 
 def main():
