@@ -23,7 +23,12 @@ def ReInt():
     fileString = file.read()
     file.close()
 
-    interface_name = "wlan0"
+    if os.path.exists("config.txt"):
+        fileConfig = open("config.txt", 'r')
+        interface_name = fileConfig.read()
+        fileConfig.close()
+    else:
+        interface_name = "wlan0"
 
     # get ssid, password from file
     ssid = re.findall(r'[sS][sS][iI][dD]:(?: ?| *{)([^{}\n]*)(?:}|\n)', fileString)
