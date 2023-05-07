@@ -16,7 +16,11 @@ def strToHex(string):
 
 def connect(interface, network_id, ssid, password):
     ssid_hex = strToHex(ssid)
-    setNetworkSSID = subprocess.run(f'wpa_cli -i{interface} set_network {network_id} ssid "{ssid_hex}"', shell=True, check=True)
+    setNetworkSSID = subprocess.run(f'wpa_cli -i{interface} set_network {network_id} ssid "{ssid_hex}"', shell=True, check=False, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+    if setNetworkSSID.returncode != 0:
+        print(setNetworkSSID.strout)
+        print("____________________")
+        print(setNetworkSSID.stderr)
     if password:
         setNetworkPwd = subprocess.run(f'wpa_cli -i{interface} set_network {network_id} psk \'"{password}"\'', shell=True, check=True)
     setNetworkSSID = subprocess.run(f'wpa_cli -i{interface} enable_network {network_id}"', shell=True, check=True)
