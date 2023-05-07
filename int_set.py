@@ -8,10 +8,17 @@ import sys
 interface = "wlan0" ##CHANGEME
 network_id = 0 ##CHANGEME
 
+def strToHex(string):
+    out = ""
+    for char in string:
+        out += hex(ord(char))[2:4]
+    return out
+
 def connect(interface, network_id, ssid, password):
-    setNetworkSSID = subprocess.run(f'wpa_cli -i{interface} set_network {network_id} ssid "{ssid}"', shell=True, check=True)
+    ssid_hex = strToHex(ssid)
+    setNetworkSSID = subprocess.run(f'wpa_cli -i{interface} set_network {network_id} ssid "{ssid_hex}"', shell=True, check=True)
     if password:
-        setNetworkPwd = subprocess.run(f'wpa_cli -i{interface} set_network {network_id} psk "{password}"', shell=True, check=True)
+        setNetworkPwd = subprocess.run(f'wpa_cli -i{interface} set_network {network_id} psk \'"{password}"\'', shell=True, check=True)
     setNetworkSSID = subprocess.run(f'wpa_cli -i{interface} enable_network {network_id}"', shell=True, check=True)
     setNetworkSSID = subprocess.run(f'wpa_cli -i{interface} select_network {network_id}"', shell=True, check=True)
     
